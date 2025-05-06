@@ -11,7 +11,7 @@ public class Login implements Callable<Integer> {
     String user;
 
     /* interactive交互开启 */
-    @Option(names = {"-p", "--password"}, description = "Passphrase", interactive = true)
+    @Option(names = {"-p", "--password"}, description = "Passphrase", interactive = true,arity  = "0..1")
     String password;
 
     @Option(names = {"-cp", "--checkPassword"}, description = "Check Password", interactive = true)
@@ -25,7 +25,7 @@ public class Login implements Callable<Integer> {
     }
 
     public static void main(String[] args) {
-        new CommandLine(new Login()).execute("-u", "user123", "-p","-cp");
+        new CommandLine(new Login()).execute("-u", "user123", "-p","zzzzzxxxx","-cp");
     }
 }
 
