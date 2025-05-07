@@ -22,7 +22,7 @@ public class MainGenerator {
         String projectPath = System.getProperty("user.dir");
         System.out.println("projectPath = " + projectPath);
         // 整个项目的根路径(.getParentFile()      获取当前文件的父路径)
-        File parentFile = new File(projectPath);
+        File parentFile = new File(projectPath).getParentFile();
         // 输入路径
         String inputPath = new File(parentFile, "/zcnovice-generator-dome-projects/acm-template").getAbsolutePath();
         System.out.println("inputPath = " + inputPath);
@@ -32,7 +32,7 @@ public class MainGenerator {
         StaticGenerator.copyFilesByRecursive(inputPath, outputPath);
 
         // 生成动态文件
-        String inputDynamicFilePath = projectPath + File.separator + "generator-basic\\src\\main\\resources\\templates\\MainTemplate.java.ftl";
+        String inputDynamicFilePath = projectPath + File.separator + "src\\main\\resources\\templates\\MainTemplate.java.ftl";
         System.out.println(inputDynamicFilePath);
         String outputDynamicFilePath = outputPath + File.separator + "acm-template/src/com/yupi/acm/MainTemplate.java";
         System.out.println(outputDynamicFilePath);

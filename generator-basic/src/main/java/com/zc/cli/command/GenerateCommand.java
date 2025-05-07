@@ -3,6 +3,7 @@ package com.zc.cli.command;
 import cn.hutool.core.bean.BeanUtil;
 import com.zc.generator.MainGenerator;
 import com.zc.model.MainTemplateConfig;
+import lombok.Data;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -11,6 +12,7 @@ import java.util.concurrent.Callable;
  * 核心命令，接收参数并执行命令
  */
 @CommandLine.Command(name = "generate", description = "生成代码",mixinStandardHelpOptions = true)
+@Data
 public class GenerateCommand implements Callable<Integer> {
     /**
      * 是否生成循环  (开关)
@@ -21,13 +23,13 @@ public class GenerateCommand implements Callable<Integer> {
     /**
      * 作者注释  (填充值)
      */
-    @CommandLine.Option(names = {"-a", "--author"}, description = "作者注释",interactive = true,echo = true)
+    @CommandLine.Option(names = {"-a", "--author"}, description = "作者注释",interactive = true,echo = true,arity = "0..1")
     private String author = "zcnovice";
 
     /**
      * 输出信息
      */
-    @CommandLine.Option(names = {"-o","--outputText"},description = "输出文本",defaultValue = "hello world",interactive = true,echo = true)
+    @CommandLine.Option(names = {"-o","--outputText"},description = "输出文本",defaultValue = "hello world",interactive = true,echo = true,arity = "0..1")
     private String outputText;
 
 
