@@ -3,6 +3,7 @@ package com.zc.maker.generator.Main;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
 import com.zc.maker.generator.JarGenerator;
+import com.zc.maker.generator.ScriptGenerator;
 import com.zc.maker.generator.file.DynamicFileGenerator;
 import com.zc.maker.meta.Meta;
 import com.zc.maker.meta.MetaManager;
@@ -24,9 +25,9 @@ public class MainGenerator {
         //获取当前项目路径
         String projectPath = System.getProperty("user.dir");
         //输出文件的根路径(后面还有路径[是生成的文件的项目路径])
-        String outputPath = projectPath + File.separator + "generated" + File.separator + meta.getName();
+        String outputPath = projectPath + File.separator + "generated";
         //D:\Java113\ProjectTotal\generator\generator-maker       \generated\acm-template-pro-generator
-        //System.out.println("outputPath = " + outputPath);
+        System.out.println("--------outputPath = " + outputPath);
 
         //判断输出路径是否存在，不存在则创建
         File file = new File(outputPath);
@@ -130,6 +131,14 @@ public class MainGenerator {
 
         // 构建 jar 包
         JarGenerator.doGenerate(outputPath);
+
+
+//----------------------------------封装脚本文件-----------------------------------
+        String shellOutputFilePath = outputPath + File.separator + "generator";
+        //jar包的路径
+        String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
+        String jarPath = "target/" + jarName;
+        ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
 
 
     }
