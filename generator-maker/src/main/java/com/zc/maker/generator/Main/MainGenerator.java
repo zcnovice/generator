@@ -64,7 +64,39 @@ public class MainGenerator {
         inputFilePath = inputResourcePath + File.separator + "templates/java/model/DataModel.java.ftl";
         //拼接一下输出路径
         outputFilePath = outputBaseJavaPackagePath  + "/model/DataModel.java";
-
+        /* 生成文件 (DataModel.java文件)*/
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
+
+
+        /*  cli.command.ConfigCommand  生成(ConfigCommand.java文件) */
+        //输入路径
+        inputFilePath = inputResourcePath + File.separator + "templates/java/cli/command/ConfigCommand.java.ftl";
+        //输出路径
+        outputFilePath = outputBaseJavaPackagePath  + "/cli/command/ConfigCommand.java";
+        DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
+
+//-----------------------------下面都是一样的--------------------------
+
+
+        // cli.command.GenerateCommand
+        inputFilePath = inputResourcePath + File.separator + "templates/java/cli/command/GenerateCommand.java.ftl";
+        outputFilePath = outputBaseJavaPackagePath + "/cli/command/GenerateCommand.java";
+        DynamicFileGenerator.doGenerate(inputFilePath , outputFilePath, meta);
+
+        // cli.command.ListCommand
+        inputFilePath = inputResourcePath + File.separator + "templates/java/cli/command/ListCommand.java.ftl";
+        outputFilePath = outputBaseJavaPackagePath + "/cli/command/ListCommand.java";
+        DynamicFileGenerator.doGenerate(inputFilePath , outputFilePath, meta);
+
+        // cli.CommandExecutor
+        inputFilePath = inputResourcePath + File.separator + "templates/java/cli/CommandExecutor.java.ftl";
+        outputFilePath = outputBaseJavaPackagePath + "/cli/CommandExecutor.java";
+        DynamicFileGenerator.doGenerate(inputFilePath , outputFilePath, meta);
+
+        // Main
+        inputFilePath = inputResourcePath + File.separator + "templates/java/Main.java.ftl";
+        outputFilePath = outputBaseJavaPackagePath + "/Main.java";
+        DynamicFileGenerator.doGenerate(inputFilePath , outputFilePath, meta);
+
     }
 }
