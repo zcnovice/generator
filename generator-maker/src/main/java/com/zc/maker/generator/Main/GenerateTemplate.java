@@ -46,18 +46,18 @@ public abstract class GenerateTemplate {
 
 
         //3.构建 jar 包
-        BuildJar(outputPath);
+        String jarPath = BuildJar(outputPath,meta);
 
 
         //4.封装脚本
-        Result result = buildScript(outputPath, meta);
+         String shellOutputFilePath = buildScript(outputPath, jarPath);
 
 
         //5.精简版程序生成
-        buildDist(outputPath, result, sourceCopyDestPath);
+        buildDist(outputPath, sourceCopyDestPath,jarPath, shellOutputFilePath);
     }
 
-    private static void buildDist(String outputPath, Result result, String sourceCopyDestPath) {
+    protected void buildDist(String outputPath,  String sourceCopyDestPath,String  jarPath,String shellOutputFilePath) {
         /* ---------------------------------生成精简版的项目--------------------------------- */
         //逻辑是复制有用的文件到新目录下
         /* 新建一个文件目录
@@ -73,7 +73,7 @@ public abstract class GenerateTemplate {
          * jarName:jar包的路径
          *jarPath = "target/" + jarName;
          */
-        String jarAbsolutePath = outputPath + File.separator + result.jarPath;
+        String jarAbsolutePath = outputPath + File.separator + jarPath;
         /**
          * jarAbsolutePath:待复制jar包的绝对路径
          * targetAbsolutePath:复制到新目录下的绝对路径
@@ -87,8 +87,8 @@ public abstract class GenerateTemplate {
          * shellOutputFilePath:模版文件路径
          * distOutputPath:拷贝到新目录下的路径
          */
-        FileUtil.copy(result.shellOutputFilePath, distOutputPath, true);
-        FileUtil.copy(result.shellOutputFilePath + ".bat", distOutputPath, true);
+        FileUtil.copy(shellOutputFilePath, distOutputPath, true);
+        FileUtil.copy(shellOutputFilePath + ".bat", distOutputPath, true);
 
 
         /* 拷贝模版文件 */
@@ -99,32 +99,25 @@ public abstract class GenerateTemplate {
         FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
     }
 
-    private static Result buildScript(String outputPath, Meta meta) throws IOException {
+    protected String buildScript(String outputPath, String jarPath) throws IOException {
         //----------------------------------封装脚本文件-----------------------------------
         String shellOutputFilePath = outputPath + File.separator + "generator";
+
+        ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
+        //Result result = new Result(shellOutputFilePath, jarPath);
+        return shellOutputFilePath;
+    }
+
+
+    protected String BuildJar(String outputPath,Meta meta) throws IOException, InterruptedException {
+        JarGenerator.doGenerate(outputPath);
         //jar包的路径
         String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
         String jarPath = "target/" + jarName;
-        ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
-        Result result = new Result(shellOutputFilePath, jarPath);
-        return result;
+        return jarPath;
     }
 
-    private static class Result {
-        public final String shellOutputFilePath;
-        public final String jarPath;
-
-        public Result(String shellOutputFilePath, String jarPath) {
-            this.shellOutputFilePath = shellOutputFilePath;
-            this.jarPath = jarPath;
-        }
-    }
-
-    private static void BuildJar(String outputPath) throws IOException, InterruptedException {
-        JarGenerator.doGenerate(outputPath);
-    }
-
-    private static void generateCode(Meta meta, String outputPath) throws IOException, TemplateException {
+    protected void generateCode(Meta meta, String outputPath) throws IOException, TemplateException {
         /* 读取输入路径(先从读取到resources开始) */
 /*
         ClassPathResource 是 Spring 框架提供的工具类，用于表示 类路径下的资源.
@@ -226,7 +219,7 @@ public abstract class GenerateTemplate {
         DynamicFileGenerator.doGenerate(inputFilePath , outputFilePath, meta);
     }
 
-    private static String copySource(Meta meta, String outputPath) {
+    protected String copySource(Meta meta, String outputPath) {
         // 复制原始文件
         /* 读取原始文件根路径(写在JSON里面) */
         String sourceRootPath = meta.getFileConfig().getSourceRootPath();
