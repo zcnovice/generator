@@ -3,11 +3,12 @@
   "description": "ACM 示例模板生成器",
   "basePackage": "com.zcnovice",
   "version": "1.0",
-  "author": "yupi",
+  "author": "zcnovice",
   "createTime": "2023-11-22",
   "fileConfig": {
-    "inputRootPath": "D:/Java113/ProjectTotal/generator/acm-template-pro",
+    "inputRootPath": ".source/acm-template-pro",
     "outputRootPath": "generated",
+    "sourceRootPath": "D:/Java113/ProjectTotal/generator/acm-template-pro",
     "type": "dir",
     "files": [
       {

@@ -1,5 +1,6 @@
 package com.zc.maker.generator.Main;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
 import com.zc.maker.generator.JarGenerator;
@@ -25,7 +26,7 @@ public class MainGenerator {
         //获取当前项目路径
         String projectPath = System.getProperty("user.dir");
         //输出文件的根路径(后面还有路径[是生成的文件的项目路径])
-        String outputPath = projectPath + File.separator + "generated";
+        String outputPath = projectPath + File.separator + "generated" + File.separator + meta.getName();//+ File.separator + meta.getName()
         //D:\Java113\ProjectTotal\generator\generator-maker       \generated\acm-template-pro-generator
         System.out.println("--------outputPath = " + outputPath);
 
@@ -34,6 +35,16 @@ public class MainGenerator {
         if(!file.exists()){
             file.mkdirs();
         }
+
+
+        // 复制原始文件
+        /* 读取原始文件根路径(写在JSON里面) */
+        String sourceRootPath = meta.getFileConfig().getSourceRootPath();
+        /* 复制文件目标路径 */
+        String sourceCopyDestPath = outputPath + File.separator + ".source";
+        /* 对文件进行复制 */
+        FileUtil.copy(sourceRootPath, sourceCopyDestPath, false);
+
 
         /* 读取输入路径(先从读取到resources开始) */
 /*
@@ -131,6 +142,13 @@ public class MainGenerator {
 
         // 构建 jar 包
         JarGenerator.doGenerate(outputPath);
+
+
+//-----------------------------生成README文件----------------------------------
+        //模版文件路径
+        inputFilePath = inputResourcePath + File.separator + "templates/README.md.ftl";
+        outputFilePath = outputPath + File.separator + "README.md";
+        DynamicFileGenerator.doGenerate(inputFilePath , outputFilePath, meta);
 
 
 //----------------------------------封装脚本文件-----------------------------------

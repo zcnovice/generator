@@ -44,6 +44,6 @@ public class JarGenerator {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        doGenerate("D:\\Java113\\ProjectTotal\\generator\\generator-maker\\generated");
+        doGenerate("D:\\Java113\\ProjectTotal\\generator\\generator-maker\\generated\\acm-template-pro-generator");
     }
 }
