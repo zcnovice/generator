@@ -159,5 +159,46 @@ public class MainGenerator {
         ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
 
 
+
+
+/* ---------------------------------生成精简版的项目--------------------------------- */
+        //逻辑是复制有用的文件到新目录下
+        /* 新建一个文件目录
+        *         //D:\Java113\ProjectTotal\generator\generator-maker \generated\acm-template-pro-generator-dist*/
+        String distOutputPath = outputPath + "-dist";
+
+        /* 拷贝jar包 */
+        String targetAbsolutePath = distOutputPath  + File.separator + "target";
+        //创建目录
+        FileUtil.mkdir(targetAbsolutePath);
+        /**
+         * outputPath:D:\Java113\ProjectTotal\generator\generator-maker \generated\acm-template-pro-generator
+         * jarName:jar包的路径
+         *jarPath = "target/" + jarName;
+         */
+        String jarAbsolutePath = outputPath + File.separator + jarPath;
+        /**
+         * jarAbsolutePath:待复制jar包的绝对路径
+         * targetAbsolutePath:复制到新目录下的绝对路径
+         * isOverride:是否覆盖文件
+         */
+        FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
+
+
+        /* 拷贝脚本文件(有两个win,Linux) */
+        /**
+         * shellOutputFilePath:模版文件路径
+         * distOutputPath:拷贝到新目录下的路径
+         */
+        FileUtil.copy(shellOutputFilePath, distOutputPath, true);
+        FileUtil.copy(shellOutputFilePath + ".bat", distOutputPath, true);
+
+
+        /* 拷贝模版文件 */
+        /**
+         * sourceCopyDestPath:模版文件路径
+         * distOutputPath:拷贝到新目录下的路径
+         */
+        FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
     }
 }

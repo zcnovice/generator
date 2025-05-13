@@ -41,7 +41,10 @@ public class MetaManager {
 
         /* 使用工具类 JSONUtil 将 JSON 字符串 反序列化为 Meta 类的实例。 */
         Meta newMeta = JSONUtil.toBean(metaJson, Meta.class);
-        Meta.FileConfig fileConfig = newMeta.getFileConfig();
+        //Meta.FileConfig fileConfig = newMeta.getFileConfig();
+
+        //校验和处理默认值
+        MetaValidator.doValidAndFill(newMeta);
 
         return newMeta;
     }
