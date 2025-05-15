@@ -22,5 +22,11 @@ public class DataModel {
      * 输出信息
      */
     private String outputText;
+
+    /**
+     * 核心模板
+     */
+    public MainTemplate mainTemplate;
+
 }
 
